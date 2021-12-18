@@ -14,7 +14,7 @@ type Describer interface {
 
 type Person struct {
 	name string
-	age uint
+	age  uint
 }
 
 type Dog struct {
@@ -23,11 +23,11 @@ type Dog struct {
 
 // Make both Person and Dog compatible with the Describer interface by
 // implementing his methods
-func (person Person)Describe() {
+func (person Person) Describe() {
 	fmt.Println("Name: ", person.name, "Age: ", person.age)
 }
 
-func (dog Dog)Describe() {
+func (dog Dog) Describe() {
 	fmt.Println("Oof", dog.name)
 }
 

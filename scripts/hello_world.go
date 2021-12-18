@@ -9,11 +9,11 @@ import (
 
 // Declaring a function
 func get_random_number() int {
-		// Go has a deterministic nature, so even the random numbers are not
+	// Go has a deterministic nature, so even the random numbers are not
 	// random until a diferent seed is set, like C and C++ this is
 	// normaly set using a datetime object converted to a integer
-	datetime := time.Now()  // Get the current datetime
-	unix_time := datetime.Unix()  // Get a Int64 represantation of time
+	datetime := time.Now()       // Get the current datetime
+	unix_time := datetime.Unix() // Get a Int64 represantation of time
 
 	rand.Seed(unix_time)
 

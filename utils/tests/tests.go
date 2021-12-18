@@ -5,7 +5,7 @@ import (
 	"main/utils/colors"
 )
 
-type Any interface {}
+type Any interface{}
 
 func PrintSuccess(message Any) {
 	fmt.Println(colors.GREEN, "[SUCCESS]", message)

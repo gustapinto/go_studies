@@ -8,7 +8,7 @@ import (
 // Structs
 type person struct {
 	name string
-	age uint
+	age  uint
 }
 
 // Interfaces
@@ -18,7 +18,7 @@ type downloader interface {
 }
 
 // Functions, because they can be first class types in Go
-type foo func() (bool)
+type foo func() bool
 
 func main() {
 	// Go is a static typed language, so it has its types, Go basic

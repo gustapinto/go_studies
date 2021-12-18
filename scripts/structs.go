@@ -7,19 +7,19 @@ import (
 // Go has support for full featured structs that ressamble the C/C++ type
 // but with a class like functionality support
 type Person struct {
-	name string
-	age uint
+	name   string
+	age    uint
 	secret string
 }
 
 // Remember that in go structs are OOP like? So here is how to declare
 // a callable method within a struct
-func (person *Person)ChangeAge(newAge uint) {
+func (person *Person) ChangeAge(newAge uint) {
 	// This function also uses a pointer to modify structs fields
-	person.age = newAge  // Reassign a struct field value
+	person.age = newAge // Reassign a struct field value
 }
 
-func (person Person)Describe() {
+func (person Person) Describe() {
 	fmt.Println("Name: ", person.name, "Age: ", person.age)
 }
 
@@ -29,8 +29,8 @@ func main() {
 
 	// Create a struct instance with named fields
 	bob := Person{
-		age: 52,
-		name: "Bob",
+		age:    52,
+		name:   "Bob",
 		secret: "Belongs to a cleaner dimension",
 	}
 
@@ -42,7 +42,7 @@ func main() {
 	pointer := &bob
 
 	(*pointer).age = 21 // Access the pointer filed the fancy way
-	pointer.age = 20 // Access the pointer field the simple way
+	pointer.age = 20    // Access the pointer field the simple way
 
 	bob.Describe()
 
@@ -52,10 +52,10 @@ func main() {
 	 */
 	desk := struct {
 		material string
-		foots int
+		foots    int
 	}{
 		material: "iron",
-		foots: 5,
+		foots:    5,
 	}
 
 	fmt.Println(desk.material, desk.foots)

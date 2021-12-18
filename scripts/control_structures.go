@@ -43,10 +43,10 @@ func main() {
 	a := "b"
 
 	switch a {
-		case "c":
-			fmt.Println("C")
-		default:
-			fmt.Println("A")
+	case "c":
+		fmt.Println("C")
+	default:
+		fmt.Println("A")
 	}
 
 	// In Go switchs can have no condition, always validating to true
@@ -55,11 +55,11 @@ func main() {
 	hour := time.Now().Hour()
 
 	switch {
-		case hour < 12:
-			fmt.Println("Good morning")
-		case hour < 18:
-			fmt.Println("Good afternoon")
-		default:
-			fmt.Println("Good night")
+	case hour < 12:
+		fmt.Println("Good morning")
+	case hour < 18:
+		fmt.Println("Good afternoon")
+	default:
+		fmt.Println("Good night")
 	}
 }
