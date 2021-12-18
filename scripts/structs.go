@@ -46,9 +46,10 @@ func main() {
 
 	bob.Describe()
 
-	// Creating a anonymous struct without specifyng an named type
-	// and with context only lifetime, it is mostrly used a temporary
-	// data placeholder or tranformator
+	/* Creating a anonymous struct without specifyng an named type
+	 * and with context only lifetime, it is mostrly used a temporary
+	 * data placeholder or tranformator
+	 */
 	desk := struct {
 		material string
 		foots int

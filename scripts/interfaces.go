@@ -4,8 +4,10 @@ import (
 	"fmt"
 )
 
-// In Go the interfaces are used to enforce a struct to had a set
-// of methods. In Go interfaces are not implemented like on other OOP languages, but inferred on a struct method creator, coindiding with the Dependency Iversion PRinciple
+/* In Go the interfaces are used to enforce a struct to had a set
+ * of methods. In Go interfaces are not implemented like on other OOP
+ * languages, but inferred on a struct method creator
+ */
 type Describer interface {
 	Describe()
 }
@@ -20,7 +22,7 @@ type Dog struct {
 }
 
 // Make both Person and Dog compatible with the Describer interface by
-// implementing hismethods
+// implementing his methods
 func (person Person)Describe() {
 	fmt.Println("Name: ", person.name, "Age: ", person.age)
 }
