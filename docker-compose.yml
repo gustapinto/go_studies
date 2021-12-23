@@ -4,6 +4,6 @@ services:
   go:
     image: golang:1.17
     tty: true
-    working_dir: /scripts
+    working_dir: /src
     volumes:
       - ./:/src
