@@ -2,53 +2,56 @@ package main
 
 import (
 	"fmt"
+	"log"
 )
 
-type Node struct {
+type BinaryNode struct {
 	value int
-	left *Node
-	right *Node
+	left  *BinaryNode
+	right *BinaryNode
 }
 
 type BinaryTree struct {
-	root *Node
+	root *BinaryNode
 }
 
-func NewNode(value int) *Node {
-	return &Node{value, nil, nil}
+func NewBinaryNode(value int) *BinaryNode {
+	return &BinaryNode{value, nil, nil}
 }
 
 func NewTree() *BinaryTree {
 	return &BinaryTree{nil}
 }
 
-func (node *Node)insertRight (value int) {
+func (node *BinaryNode) insertRight(value int) {
 	if node.right == nil {
-		node.right = NewNode(value)
+		node.right = NewBinaryNode(value)
 	} else {
 		node.right.insert(value)
 	}
 }
 
-func (node *Node)insertLeft (value int) {
+func (node *BinaryNode) insertLeft(value int) {
 	if node.left == nil {
-		node.left = NewNode(value)
+		node.left = NewBinaryNode(value)
 	} else {
 		node.left.insert(value)
 	}
 }
 
-func (node *Node)insert (value int) {
+func (node *BinaryNode) insert(value int) {
 	if node == nil {
-		node = NewNode(value)
-	} else if value <= node.value {
+		node = NewBinaryNode(value)
+	} else if value < node.value {
 		node.insertLeft(value)
-	} else {
+	} else if value > node.value {
 		node.insertRight(value)
+	} else {
+		log.Fatal("Cannot add duplicated value to BinaryNode")
 	}
 }
 
-func (node *Node)PrintPreOrder () {
+func (node *BinaryNode) PrintPreOrder() {
 	if node != nil {
 		fmt.Print(node.value, " ")
 
@@ -57,7 +60,7 @@ func (node *Node)PrintPreOrder () {
 	}
 }
 
-func (node *Node)PrintInOrder () {
+func (node *BinaryNode) PrintInOrder() {
 	if node != nil {
 		node.left.PrintInOrder()
 
@@ -67,7 +70,7 @@ func (node *Node)PrintInOrder () {
 	}
 }
 
-func (node *Node)PrintPostOrder() {
+func (node *BinaryNode) PrintPostOrder() {
 	if node != nil {
 		node.left.PrintPostOrder()
 		node.right.PrintPostOrder()
@@ -76,9 +79,9 @@ func (node *Node)PrintPostOrder() {
 	}
 }
 
-func (tree *BinaryTree)Insert (value int) *BinaryTree {
+func (tree *BinaryTree) Insert(value int) *BinaryTree {
 	if tree.root == nil {
-		tree.root = NewNode(value)
+		tree.root = NewBinaryNode(value)
 	} else {
 		tree.root.insert(value)
 	}
@@ -86,7 +89,7 @@ func (tree *BinaryTree)Insert (value int) *BinaryTree {
 	return tree
 }
 
-func (node *Node)Search (value int) *Node {
+func (node *BinaryNode) Search(value int) *BinaryNode {
 	if node.value == value {
 		return node
 	}
