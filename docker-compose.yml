@@ -6,4 +6,4 @@ services:
     tty: true
     working_dir: /src
     volumes:
-      - ./:/src
+      - ./:/src:Z
