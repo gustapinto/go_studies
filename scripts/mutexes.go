@@ -8,6 +8,7 @@ import (
 // Aprofundamento no uso de mutexes em Golang
 func main() {
 	counter := 0
+	counterStruct := Counter{}
 
 	/* Mutex
 
@@ -24,14 +25,16 @@ func main() {
 	var wg sync.WaitGroup
 
 	for i := 0; i < 100; i++ {
-		wg.Add(1)
+		wg.Add(2)
 
 		go add(&m, &wg, &counter)
+		go counterStruct.Increment(&wg)
 	}
 
 	wg.Wait()
 
 	fmt.Println(counter)
+	fmt.Println(counterStruct.Count)
 }
 
 func add(m *sync.Mutex, wg *sync.WaitGroup, counter *int) {
@@ -42,5 +45,23 @@ func add(m *sync.Mutex, wg *sync.WaitGroup, counter *int) {
 	}
 
 	m.Unlock() // Abre o semáforo do mutexes
+	wg.Done()
+}
+
+// Além de serem passados como referências para funções Mutexes em Go também
+// podem ser tratados em structs
+type Counter struct {
+	mu sync.Mutex
+	Count int
+}
+
+func (c *Counter) Increment(wg *sync.WaitGroup) {
+	c.mu.Lock()
+
+	for i := 0; i < 1000; i++ {
+		c.Count += i
+	}
+
+	c.mu.Unlock()
 	wg.Done()
 }
