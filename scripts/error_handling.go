@@ -1,10 +1,14 @@
 /* Aprofundamento no uso de padrões de gerenciamento de erros
 
-OBS: É importante frisar que os padrões demonstrados são considerados como forma não idiomáticas
+OBS 1: É importante frisar que os padrões demonstrados são considerados como forma não idiomáticas
 de lidar com erros em Go e que a única forma realmente idiomática é utilizando a estrutura:
 > if err != nil {
 >     // lida com o erro
 > }
+
+OBS 2: Esses padrões não são formas comuns e aceitas pela comunidade Go, mas sim apenas formas
+alternativas de gerenciamento de erros, trazidos muitas vezes de outras comunidades ou propostas
+que não foram concretizadas
 */
 package main
 
@@ -12,6 +16,8 @@ import (
 	"errors"
 	"fmt"
 )
+
+var ErrF = errors.New("err F")
 
 /* Unwrap
 
@@ -49,9 +55,30 @@ func Except(args ...any) []any {
 	return args[0 : len(args)-1]
 }
 
+/* Match
+
+Match, ou MatchErr é uma forma de tratar erros a partir de uma função variádica que recebe o erro,
+e uma sequência de argumentos na forma: Tipo, Função, etc...
+
+Exemplo:
+> func match_err(error, nil, func(), int_err, func_int_err(), ....)
+*/
+type H struct {
+	errType    error
+	errHandler func(error)
+}
+
+func MatchErr(err error, handlers ...H) {
+	for _, handler := range handlers {
+		if errors.Is(err, handler.errType) {
+			handler.errHandler(err)
+		}
+	}
+}
+
 func main() {
 	f := func() (int, error) {
-		return 1, errors.New("f err")
+		return 1, ErrF
 	}
 	g := func(args ...any) {
 		fmt.Println(args...)
@@ -69,6 +96,15 @@ func main() {
 
 	o := Except(h())
 	g(o[0].(int), o[1].(int))
+
+	_, err := f()
+	// Estruturas de Match são melhores usadas com handlers genéricos nomeados, pois tornam
+	// a chamada de função mais limpa e permitem que o mesmo tipo de erro seja sempre tratado
+	// pela mesma função de handler
+	ignoreErr := func(err error) {}
+	printErr := func(err error) { fmt.Println("Err:", err) }
+
+	MatchErr(err, H{nil, ignoreErr}, H{ErrF, printErr})
 
 	_ = Except(f())
 }
