@@ -68,12 +68,10 @@ type H struct {
 	errHandler func(error)
 }
 
-func MatchErr(err error, handlers ...H) {
-	for _, handler := range handlers {
-		if errors.Is(err, handler.errType) {
-			handler.errHandler(err)
-		}
-	}
+type Matches map[error]func(error)
+
+func MatchErr(err error, handlers Matches) {
+	handlers[err](err)
 }
 
 func main() {
@@ -104,7 +102,7 @@ func main() {
 	ignoreErr := func(err error) {}
 	printErr := func(err error) { fmt.Println("Err:", err) }
 
-	MatchErr(err, H{nil, ignoreErr}, H{ErrF, printErr})
+	MatchErr(err, Matches{nil: ignoreErr, ErrF: printErr})
 
 	_ = Except(f())
 }
