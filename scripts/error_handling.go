@@ -63,11 +63,6 @@ e uma sequência de argumentos na forma: Tipo, Função, etc...
 Exemplo:
 > func match_err(error, nil, func(), int_err, func_int_err(), ....)
 */
-type H struct {
-	errType    error
-	errHandler func(error)
-}
-
 type Matches map[error]func(error)
 
 func MatchErr(err error, handlers Matches) {
