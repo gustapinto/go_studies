@@ -113,9 +113,69 @@ func (s SetoideSlice) Equals(slice SetoideSlice) bool {
 	return true
 }
 
+/* Filter
+
+É uma função que objetiva filtrar os elementos de uma coleção (normalmente slices)
+que faz uso de uma função predicado, iterando sobre os elementos da coleção e
+retornando uma nova coleção apenas com os elementos que positivaram com o
+predicado
+*/
+func Filter[T any](collection []T, fn func(T) bool) (elements []T) {
+	for _, item := range collection {
+		if fn(item) {
+			elements = append(elements, item)
+		}
+	}
+
+	return elements
+}
+
+/* Map
+
+É uma função que itera sobre todos os elementos de uma coleção aplicando a função
+passada sobre eles, retornando assim uma nova coleção com os valores "mapeados"
+da primeira
+*/
+func Map[T any](collection []T, fn func(T) T) (elements []T) {
+	for _, item := range collection {
+		elements = append(elements, fn(item))
+	}
+
+	return elements
+}
+
+/* Fold (Reduce)
+
+É uma função que itera sobre todos os elementos de uma coleção e a partir de uma
+outra função acumula seus resultados, reduzindo a coleção a um único valor final
+*/
+func Fold[T any](collection []T, fn func(T, T) T) (accumulator T) {
+	for _, item := range collection {
+		accumulator = fn(accumulator, item)
+	}
+
+	return accumulator
+}
+
 func main() {
 	fmt.Printf("Resultado Curry: %d\n", CurriedSum(1)(2))
 	fmt.Printf("Resultado Parcial: %d\n", PartialSum(2))
 	fmt.Printf("Resultado Predicado: %v\n", SumIsLowerThan25(10, 5))
 	fmt.Printf("Resultado Setoide: %v\n", SetoideSlice{1, 2, 3}.Equals(SetoideSlice{1, 2, 3}))
+
+	numbers := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+
+	evens := Filter[int](numbers, func(number int) bool {
+		return number%2 == 0
+	})
+	doubles := Map[int](numbers, func(number int) int {
+		return number * 2
+	})
+	sum := Fold[int](numbers, func(n1, n2 int) int {
+		return n1 + n2
+	})
+
+	fmt.Printf("Números pares: %v\n", evens)
+	fmt.Printf("Números dobrados: %v\n", doubles)
+	fmt.Printf("Números somados: %v\n", sum)
 }
